@@ -23,7 +23,7 @@ function UserComp (props) {
         }
         fetchPosts()
        
-    },[])
+    },[props.user.id])
 
     useEffect(() => {
         const completed = todos.map(e => {return e.completed}).every(e => e === true)
@@ -74,6 +74,9 @@ function UserComp (props) {
    }
 
    function deleteUser() {
+        if (isSelected) {
+            sessionStorage["userSelectedId"] = ""
+        }
         const newUsers = props.users.filter((user) => user.id !== props.user.id)
         props.updateUsers(newUsers)
    }
