@@ -23,7 +23,7 @@ function UserComp (props) {
         }
         fetchPosts()
        
-    },[props.user.id])
+    },[])
 
     useEffect(() => {
         const completed = todos.map(e => {return e.completed}).every(e => e === true)
@@ -67,7 +67,11 @@ function UserComp (props) {
                     return {...user, name:newName, email: newEmail}
                 }
             }
-            return user;
+
+            else {
+                
+                return user;
+            }
         })
 
         props.updateUsers(newUsers)
@@ -75,7 +79,7 @@ function UserComp (props) {
 
    function deleteUser() {
         if (isSelected) {
-            sessionStorage["userSelectedId"] = ""
+            props.clearSide()
         }
         const newUsers = props.users.filter((user) => user.id !== props.user.id)
         props.updateUsers(newUsers)
@@ -89,19 +93,9 @@ function UserComp (props) {
             setIsSelected(false)
         }
         else {
-            const userSelectedId = sessionStorage["userSelectedId"]
-
-            if (userSelectedId !== "") {
-                document.getElementById("idLabel"+userSelectedId).click()
-            }
-
-            else if (props.isNewUser) {
-                document.getElementById("newUserBtn").click()
-            }
-
+            props.clearSide()
             userElem.classList.add("userSelected")
             sessionStorage["userSelectedId"] = props.user.id
-            
             setIsSelected(true)
         }
    }

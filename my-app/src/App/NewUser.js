@@ -1,16 +1,10 @@
 import { useState } from "react"
 
 
-
 function NewUserComp(props) {
 
     const [newUserName, setNewUserName] = useState("")
     const [newUserEmail, setNewUserEmail] = useState("")
-
-    function addNewUserHandler() {
-        props.addNewUser(newUserName, newUserEmail)
-        props.changeIsNewUserStatus()
-    }
 
     return (
         <div className="side">
@@ -23,8 +17,8 @@ function NewUserComp(props) {
                     <span className="userMenuKeys">Email:</span> <input type="text" onChange={(e) => setNewUserEmail(e.target.value)}></input><br></br>
                 </div><br></br><br></br>
                 <div className="menuElements">
-                    <input className="btn" type="button" value="Cancel" onClick={props.changeIsNewUserStatus}></input>
-                    <input className="btn" type="button" value="Add" onClick={addNewUserHandler}></input>
+                    <input className="btn" type="button" value="Cancel" onClick={props.clearSide}></input>
+                    <input className="btn" type="button" value="Add" onClick={() => props.addNewUser(newUserName, newUserEmail)}></input>
                 </div>
             </div>
         </div>

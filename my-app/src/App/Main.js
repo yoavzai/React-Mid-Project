@@ -27,23 +27,25 @@ function MainComp() {
         }
     }, [usersLoaded])
 
-    function changeIsNewUserStatus() {
-        setIsNewUser(!isNewUser)
+    function clearSide() {
+        if (sessionStorage["userSelectedId"] !== "") {
+            document.getElementById("idLabel"+sessionStorage["userSelectedId"]).click()
+        }
+        else if (isNewUser) {
+            setIsNewUser(false)
+        }
     }
 
     function addNewUser(name, email) {
         setUsers([...users, {id: nextUserId, name: name, email: email, address:{}}])
+        clearSide()
         setNextUserId(nextUserId+1)
    }
 
    function addNewUserBtnClick () {
-        const userSelectedId = sessionStorage["userSelectedId"]
+        clearSide()
+        setIsNewUser(true)
 
-        if (userSelectedId !== "") {
-            document.getElementById("idLabel"+userSelectedId).click()
-        }
-
-        setIsNewUser(!isNewUser)
    }
 
     function search(e) {
@@ -70,11 +72,11 @@ function MainComp() {
             <div className="main">
                 Search <input type="text" onChange={search}></input>
                 <input id="newUserBtn" className="btn" type="button" value="Add" onClick={addNewUserBtnClick}></input>
-                {isNewUser && <NewUserComp addNewUser={addNewUser} changeIsNewUserStatus={changeIsNewUserStatus}></NewUserComp>}
+                {isNewUser && <NewUserComp addNewUser={addNewUser} clearSide={clearSide}></NewUserComp>}
                 {
                     users.map(user => {return <UserComp key={user.id} user={user} users={users}
-                                                        updateUsers={updateUsers} changeIsNewUserStatus={changeIsNewUserStatus}
-                                                        isNewUser={isNewUser}></UserComp>})
+                                                        updateUsers={updateUsers}
+                                                        clearSide={clearSide}></UserComp>})
                 }
             </div>
         </div>
